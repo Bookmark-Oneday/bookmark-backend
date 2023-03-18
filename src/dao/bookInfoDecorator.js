@@ -22,7 +22,7 @@ class BookInfoDecorator {
         const data = {
             "book_id": bookInfo[0].book_id,
             "title" : bookInfo[0].title,
-            "author" : bookInfo[0].author,
+            "authors" : bookInfo[0].authors,
             "translators" : bookInfo[0].translators,
             "publisher" : bookInfo[0].publisher,
             "titleImage" : bookInfo[0].image,
