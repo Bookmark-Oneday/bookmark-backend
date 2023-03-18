@@ -32,7 +32,7 @@ class MyListDao {
         const bookInfoDecorator = new BookInfoDecorator()
 
         const bookInfo = await MyListRepo.getBookInfo(bookId)
-        const bookHistoryInfo = await bookHistoryRepo.getBookHistoryListByBookIds(bookId)
+        const bookHistoryInfo = await bookHistoryRepo.getBookHistoryListByBookId(bookId)
 
         const bookDetailInfo = await bookInfoDecorator.decorateBookInfo(bookInfo, bookHistoryInfo)
 

@@ -8,17 +8,6 @@ class BookHistoryRepository {
         return this._repositoryName
     }
     
-    async getBookHistoryListByBookIds(bookId){
-        // 같은 column 이름을 구분하기 위해 deleted_at에 alias 설정
-        const query = pgClient.select('*')
-                        .from('tbl_mybook as tb').join('tbl_myhistory as th', 'tb.id','=','th.mybook_id')
-                        .where('tb.id', bookId).whereNull('tb.deleted_at').whereNull('th.deleted_at')
-
-        return await query
-
-
-    }
-
     async getBookHistoryListByBookId(bookId){
         // 같은 column 이름을 구분하기 위해 deleted_at에 alias 설정
         const query = pgClient.select('*')
@@ -27,7 +16,8 @@ class BookHistoryRepository {
                         .where('tb.id', bookId)
                         .whereNull('tb.deleted_at')
                         .whereNull('th.deleted_at')
-                        .first()
+                        .orderBy('th.created_at', 'desc')
+                        .limit(100)
 
         return await query
     }
