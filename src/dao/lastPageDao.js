@@ -1,30 +1,24 @@
 const { LastPageRepository } = require("./repositories/lastPageRepository");
 
 class LastPageDao {
-  constructor() {
-    this._daoName = "LastPageDao";
-  }
+    constructor() {
+        this._daoName = "LastPageDao";
+    }
 
-  get daoName() {
-    return this._daoName;
-  }
+    get daoName() {
+        return this._daoName;
+    }
 
-  async updateBookLastPage(bookId, currentPage, totalPage) {
-    const lastPageRepo = new LastPageRepository();
-    const updatedRows = await lastPageRepo.updateLastPageList(
-      bookId,
-      currentPage,
-      totalPage
-    );
+    async updateBookLastPage(bookId, currentPage, totalPage) {
+        const lastPageRepo = new LastPageRepository();
+        const updatedRows = await lastPageRepo.updateLastPageList(
+            bookId,
+            currentPage,
+            totalPage
+        );
 
-    /*
-    const result = {
-      data: lastPageInfo,
-    };
-    */
-
-    return updatedRows;
-  }
+        return updatedRows;
+    }
 }
 
 module.exports = { LastPageDao };
