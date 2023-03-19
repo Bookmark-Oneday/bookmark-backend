@@ -4,14 +4,12 @@ const userController = require("./accountController");
 const adminController = require("./adminController");
 const bookTimerController = require("./bookTimerController");
 const lastPageController = require("./lastPageController");
-const bookShelfController = require("./bookShelfController");
 
 module.exports = {
-  ...healthcheckController,
-  ...boardController,
-  ...userController,
-  ...adminController,
-  ...bookTimerController,
-  ...lastPageController,
-  ...bookShelfController,
+    ...healthcheckController,
+    ...boardController,
+    ...userController,
+    ...adminController,
+    ...bookTimerController,
+    ...lastPageController,
 };

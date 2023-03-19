@@ -18,6 +18,13 @@ class LastPageRepository {
 
         return await query;
     }
+
+    async findById(bookId) {
+        const query = await pgClient("tbl_mybook")
+            .where({ id: bookId })
+            .first();
+        return query;
+    }
 }
 
 module.exports = {

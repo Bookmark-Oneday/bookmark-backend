@@ -1,3 +1,9 @@
+const validator = require("validator");
+const {
+    InvalidUUID,
+    MyBookNotFound,
+    InternalServerError,
+} = require("../services/errorService");
 const { LastPageRepository } = require("./repositories/lastPageRepository");
 
 class LastPageDao {
@@ -10,6 +16,11 @@ class LastPageDao {
     }
 
     async updateBookLastPage(bookId, currentPage, totalPage) {
+        // uuid type check
+        if (!validator.isUUID(bookId)) {
+            throw new InvalidUUID(bookId);
+        }
+
         const lastPageRepo = new LastPageRepository();
         const updatedRows = await lastPageRepo.updateLastPageList(
             bookId,
@@ -17,7 +28,21 @@ class LastPageDao {
             totalPage
         );
 
-        return updatedRows;
+        // Check Book Existence
+        if (!updatedRows) {
+            throw new MyBookNotFound(bookId);
+        }
+
+        // Check if the update is successful
+        const updatedBook = await lastPageRepo.findById(bookId);
+        if (
+            updatedBook.current_page != currentPage ||
+            updatedBook.total_page != totalPage
+        ) {
+            throw new InternalServerError();
+        }
+
+        return;
     }
 }
 

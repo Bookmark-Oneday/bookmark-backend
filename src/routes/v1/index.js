@@ -4,18 +4,16 @@ const { accountRouteV1 } = require("./accountRouteV1");
 const { adminRouteV1 } = require("./adminRouteV1");
 const { bookTimerRouteV1 } = require("./bookTimerRouteV1");
 const { lastPageRouteV1 } = require("./lastPageRouteV1");
-const { bookShelfRouteV1 } = require("./bookShelfRouteV1");
 
 const V1 = () => {
-  const router = Router();
-  boardRouteV1(router);
-  accountRouteV1(router);
-  adminRouteV1(router);
-  bookTimerRouteV1(router);
-  lastPageRouteV1(router);
-  bookShelfRouteV1(router);
+    const router = Router();
+    boardRouteV1(router);
+    accountRouteV1(router);
+    adminRouteV1(router);
+    bookTimerRouteV1(router);
+    lastPageRouteV1(router);
 
-  return router;
+    return router;
 };
 
 module.exports = { V1 };

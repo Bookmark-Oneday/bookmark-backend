@@ -7,17 +7,15 @@ const adminService = require("./adminService");
 const bookTimerService = require("./bookTimerService");
 const DecoratorService = require("../dao/bookTimerDecorator");
 const lastPageService = require("./lastPageService");
-const bookShelfService = require("./bookShelfService");
 
 module.exports = {
-  ...healthcheckService,
-  ...versionService,
-  ...errorService,
-  ...postingService,
-  ...accountService,
-  ...adminService,
-  ...bookTimerService,
-  ...DecoratorService,
-  ...lastPageService,
-  ...bookShelfService,
+    ...healthcheckService,
+    ...versionService,
+    ...errorService,
+    ...postingService,
+    ...accountService,
+    ...adminService,
+    ...bookTimerService,
+    ...DecoratorService,
+    ...lastPageService,
 };
