@@ -29,7 +29,6 @@ const joinMe = async (ctx)=>{
     const {
         query,
         headers,
-        request: { body }
     } = ctx
     const inst = new AccountService()
     inst.addNewAccount()
