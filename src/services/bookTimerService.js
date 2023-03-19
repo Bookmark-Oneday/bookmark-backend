@@ -1,5 +1,5 @@
 const validator = require('validator')
-const { InvalidUUID, AccountNotFound, MyBookNotFound } = require('./errorService')
+const { InvalidUUID, InternalServerError } = require('./errorService')
 const { BookTimerDao } = require('../dao/bookTimerDao')
 
 class BookTimerService {
@@ -11,7 +11,7 @@ class BookTimerService {
         return this._serviceName
     }
 
-    async getTimerByBookId(bookId){
+    async getBookTimerByBookId(bookId){
 
         // uuid type check
         if (!validator.isUUID(bookId)){
@@ -19,6 +19,28 @@ class BookTimerService {
         }
 
         const bookTimerDao = new BookTimerDao()
+
+        const bookTimerInfo = await bookTimerDao.getBookTimerInfoByBookId(bookId)
+
+        return bookTimerInfo
+    }
+
+    async addReadingTime(bookId, readingTime){
+
+        // uuid type check
+        if (!validator.isUUID(bookId)){
+            throw new InvalidUUID(bookId)
+        }
+
+        // number type check
+        if (isNaN(readingTime)){
+            throw new InvalidINT(readingTime)
+        }
+
+        const bookTimerDao = new BookTimerDao()
+
+        // add new timer history
+        const addedHistory = await bookTimerDao.postReadingTimeInfo(bookId, readingTime)
 
         const bookTimerInfo = await bookTimerDao.getBookTimerInfoByBookId(bookId)
 
