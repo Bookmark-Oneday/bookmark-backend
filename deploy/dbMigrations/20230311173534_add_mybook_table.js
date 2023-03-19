@@ -1,4 +1,10 @@
 
+/*
+test data
+insert into tbl_mybook values('38d44dba-910a-49cb-88b0-440353164777', '31a1c45d-4026-4533-a63d-b44d58408556', 'testbook1', 'testboo1 contents', '["author1", "author2"]', '["trans1", "trans2"]', 'publisher1', 'thumbnail url', '00000000', 0, 512, '["image1", "image2"]', false, false, '{}', now(), now(), null);
+insert into tbl_mybook values('4b4acc85-c0de-41ed-8077-fa9d8a1807e9', '31a1c45d-4026-4533-a63d-b44d58408556', 'testbook2', 'testboo2 contents', '["author2-1", "author2-2"]', '["trans2-1", "trans2-2"]', 'publisher2', 'thumbnail url 2', '11111111', 0, 600, '["image2-1", "image2-2"]', false, false, '{}', now(), now(), null);
+insert into tbl_mybook values('84e65492-0bc3-4507-9f14-36edf07ba9a0', '31a1c45d-4026-4533-a63d-b44d58408556', 'testbook2', 'testboo2 contents', '["author3-1", "author3-2"]', '["trans3-1", "trans3-2"]', 'publisher3', 'thumbnail url 3', '22222222', 0, 812, '["image3-1", "image3-2"]', false, false, '{}', now(), now(), null);
+*/
 exports.up = (knex) => {
     return knex.schema.dropTableIfExists('tbl_mybook').createTable('tbl_mybook', (table)=>{
         table.uuid('id').notNullable().primary().index('tbl_mybook_id_index')

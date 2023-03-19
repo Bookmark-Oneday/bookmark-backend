@@ -17,7 +17,7 @@ class BookHistoryRepository {
                         .where('tb.id', bookId)
                         .whereNull('tb.deleted_at')
                         .whereNull('th.deleted_at')
-                        .orderBy('th.created_at', 'desc')
+                        .orderBy('th.updated_at', 'desc')
                         .limit(100)
 
         return await query

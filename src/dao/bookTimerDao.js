@@ -23,6 +23,7 @@ class BookTimerDao {
             this._repo.account.getAccountByBookId(bookId),
             this._repo.bookHistory.getBookHistoryListByBookId(bookId)
         ])
+
         // deleted book check
         if (!accountInfo || !bookHistoryInfo){
             throw new MyBookNotFound(bookId)

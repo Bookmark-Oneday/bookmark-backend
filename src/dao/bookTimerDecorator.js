@@ -9,13 +9,13 @@ class BookTimerDecorator {
         return this._serviceName
     }
 
-    decorateBookTimer(bookId, {userInfo, historyInfo}){
+    decorateBookTimer(bookId, {accountInfo, bookHistoryInfo}){
 
         let dailyTime = 0
         // 오늘 날짜 계산 yyyy-mm-dd format
         const now = getTimezoneDate()
-        const history = historyInfo.map(item=>{
-            const itemDate = getTimezoneDate(item.created_at)
+        const history = bookHistoryInfo.map(item=>{
+            const itemDate = getTimezoneDate(item.updated_at)
             
             if(isSameDay(now, itemDate)){
                 dailyTime += item.reading_time
@@ -28,8 +28,8 @@ class BookTimerDecorator {
         })
 
         const data = {
-            "user_id": userInfo.user_id,
-            "target_time": userInfo.target_read_time,
+            "user_id": accountInfo.user_id,
+            "target_time": accountInfo.target_read_time,
             "daily": dailyTime, // 오늘 모든 책을 읽은 전체 시간
             "book":{
                 "book_id": bookId,
