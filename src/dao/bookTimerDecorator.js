@@ -14,14 +14,14 @@ class BookTimerDecorator {
         let history = new Array()
         let daily = 0
 
-        // 오늘 날짜 계산 yyyy-mm-dd format
+        // today date, format: yyyy-mm-dd 
         const date = new Date()
         const today = date.getFullYear() + '-' + ('0'+(date.getMonth() + 1)).slice(-2) + '-' + date.getDate()
 
         // history array
         for (const h of historyInfo){
 
-            // 오늘이면 daily 계산 
+            // if created_at == today, add daily time
             if (h.created_at.toISOString().split('T')[0] == today ){
                 daily += h.reading_time
             }
@@ -33,9 +33,9 @@ class BookTimerDecorator {
         }
 
         const data = {
-            "user_id": userInfo[0].user_id,
-            "target_time": userInfo[0].target_read_time,
-            "daily": daily, // 오늘 모든 책을 읽은 전체 시간
+            "user_id": userInfo.user_id,
+            "target_time": userInfo.target_read_time,
+            "daily": daily, 
             "book":{
                 "book_id": historyInfo[0].mybook_id,
                 "history": history
