@@ -2,11 +2,16 @@ const { BookHistoryRepository } = require('./repositories/bookHistoryRepository'
 const { MyBookRepository } = require('./repositories/myBookRepository')
 const { AccountRepository } = require('./repositories/accountRepository')
 const { BookTimerDecorator } = require('./bookTimerDecorator')
+
 const { MyBookNotFound, InternalServerError, BookHistoryNotFound } = require('../services/errorService')
 
 class BookTimerDao {
     constructor(){
         this._daoName = 'BookTimerDao'
+        this._repo = {
+            bookHistory: new BookHistoryRepository(),
+            account: new AccountRepository(),
+        }
     }
 
     get daoName(){
@@ -14,19 +19,19 @@ class BookTimerDao {
     }
 
     async getBookTimerInfoByBookId(bookId){
-        const bookHistoryRepo = new BookHistoryRepository()
-        const accountRepo = new AccountRepository()
         const bookTimerDecorator = new BookTimerDecorator()
 
-        const accountInfo = await accountRepo.getAccountByBookId(bookId)
-        const bookHistoryInfo = await bookHistoryRepo.getBookHistoryListByBookId(bookId)
+        const [accountInfo, bookHistoryInfo] = await Promise.all([
+            this._repo.account.getAccountByBookId(bookId),
+            this._repo.bookHistory.getBookHistoryListByBookId(bookId)
+        ])
 
         // deleted book check
         if (!accountInfo || !bookHistoryInfo){
             throw new MyBookNotFound(bookId)
         }
 
-        const bookTimerInfo = await bookTimerDecorator.decorateBookTimer(accountInfo, bookHistoryInfo)
+        const bookTimerInfo = bookTimerDecorator.decorateBookTimer(bookId, {accountInfo, bookHistoryInfo})
 
         const result = {
             data : bookTimerInfo
@@ -64,6 +69,7 @@ class BookTimerDao {
         }
         return result
     }
+
 
     async deleteReadingTimeByHistoryId(bookId, bookHistoryId){
         const accountRepo = new AccountRepository()
@@ -127,6 +133,7 @@ class BookTimerDao {
         }
         return result
     } 
+
 }
 
 module.exports = { BookTimerDao }

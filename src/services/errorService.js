@@ -10,6 +10,7 @@ const errCodeString = {
     InvalidINT          : 'ERR-0007',
     ServerError         : 'ERR-0008',
     BookHistoryNotFound : 'ERR-0009'
+
 }
 
 class MissingRequestParameter extends serviceError {
@@ -77,6 +78,7 @@ class BookHistoryNotFound extends serviceError {
         super(message, 400, errCodeString.BookHistoryNotFound)
         this.name = this.constructor.name
     }    
+
     
 }
 
@@ -98,5 +100,6 @@ module.exports = {
     InvalidINT,
     InternalServerError,
     BookHistoryNotFound
+
     
 }

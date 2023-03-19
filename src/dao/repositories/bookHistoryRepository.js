@@ -17,7 +17,7 @@ class BookHistoryRepository {
                         .where('tb.id', bookId)
                         .whereNull('tb.deleted_at')
                         .whereNull('th.deleted_at')
-                        .orderBy('th.created_at', 'desc')
+                        .orderBy('th.updated_at', 'desc')
                         .limit(100)
 
         return await query
@@ -29,6 +29,7 @@ class BookHistoryRepository {
                         .where('th.id', bookHistoryId)
                         .whereNull('th.deleted_at')
                         .first()
+
 
         return await query
     }
@@ -58,7 +59,6 @@ class BookHistoryRepository {
 
 
     }
-
     async removeReadingTimeByBookHistoryId(bookHistoryId){
         
         const query = pgClient.transaction(function(trx) {
@@ -84,6 +84,7 @@ class BookHistoryRepository {
 
 
     }
+
 }
 
 module.exports = {
