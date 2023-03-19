@@ -14,15 +14,6 @@ class MyListService {
         return this._serviceName
     }
 
-    // async getMyList(sortType){
-      
-    //     const myListDao = new MyListDao()
-
-    //     const myList = await myListDao.getMyList(sortType)
-
-    //     return myList
-    // }
-
     async getBookInfo(bookId){
       
         // uuid type check
@@ -33,6 +24,11 @@ class MyListService {
         const bookInfoDao = new MyListDao()
 
         const bookInfo = await bookInfoDao.getBookInfo(bookId)
+        
+        // check if bookInfo exists
+        if (!bookInfo) {
+            throw new MyBookNotFound(bookId)
+        }
 
         return bookInfo
 }
