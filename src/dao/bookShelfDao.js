@@ -1,3 +1,4 @@
+const { DuplicateBook } = require("../services/errorService");
 const { BookShelfRepository } = require("./repositories/bookShelfRepository");
 
 class BookShelfDao {
@@ -9,31 +10,29 @@ class BookShelfDao {
         return this._daoName;
     }
 
-    async registerBook(
-        user_id,
-        title,
-        content,
-        authors,
-        publisher,
-        translators,
-        thumbnail,
-        isbn,
-        total_page,
-        meta
-    ) {
+    async registerBook(book) {
         const bookShelfRepo = new BookShelfRepository();
-        const updatedRows = await bookShelfRepo.registerBook(
+
+        const { user_id, isbn } = book;
+
+        // Check for duplicates with the same user_id and isbn
+        const duplicateQuery = await bookShelfRepo.getBookByUserIdAndISBN(
             user_id,
-            title,
-            content,
-            authors,
-            publisher,
-            translators,
-            thumbnail,
-            isbn,
-            total_page,
-            meta
+            isbn
         );
+        if (duplicateQuery.length > 0) {
+            throw new DuplicateBook(isbn);
+        }
+
+        const { authors, translators } = book;
+        const authorsJSON = JSON.stringify(authors);
+        const translatorsJSON = JSON.stringify(translators);
+
+        const updatedRows = await bookShelfRepo.registerBook({
+            ...book,
+            authors: authorsJSON,
+            translators: translatorsJSON,
+        });
 
         return updatedRows;
     }

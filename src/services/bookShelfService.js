@@ -9,33 +9,9 @@ class BookShelfService {
         return this._serviceName;
     }
 
-    async registerBook(
-        user_id,
-        title,
-        content,
-        authors,
-        publisher,
-        translators,
-        thumbnail,
-        isbn,
-        total_page,
-        meta
-    ) {
+    async registerBook(book) {
         const bookShelfDao = new BookShelfDao();
-
-        const updatedRows = await bookShelfDao.registerBook(
-            user_id,
-            title,
-            content,
-            authors,
-            publisher,
-            translators,
-            thumbnail,
-            isbn,
-            total_page,
-            meta
-        );
-
+        const updatedRows = await bookShelfDao.registerBook(book);
         return updatedRows;
     }
 }
