@@ -14,28 +14,14 @@ class MyListService {
         return this._serviceName
     }
 
-    async getMyList(user_id, sortType, perPage, continuousToken){
+    async getMyList(userId, sortType, perPage, continuousToken){
       
         const myListDao = new MyListDao()
 
-        const myList = await myListDao.getMyList(user_id, sortType, perPage, continuousToken)
+        const myList = await myListDao.getMyList(userId, sortType, perPage, continuousToken)
         
         return myList
     }
-
-    async getBookInfo(bookId){
-      
-        // uuid type check
-        if (!validator.isUUID(bookId)){
-            throw new InvalidUUID(bookId)
-        }
-
-        const bookInfoDao = new MyListDao()
-
-        const bookInfo = await bookInfoDao.getBookInfo(bookId)
-
-        return bookInfo
-}
 
 }
 
