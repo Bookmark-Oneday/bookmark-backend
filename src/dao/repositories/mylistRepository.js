@@ -15,28 +15,26 @@ class MyListRepository {
       // const offset = continuousToken ? parseInt(continuousToken)  : 0;
       
       // 데이터의 총 개수 구하기
-      const countQuery = pgClient('tbl_mybook').where('user_id', user_id).count();
+      const countQuery = pgClient('tbl_mybook').where('user_id', user_id).count().first();
 
       const query = pgClient('tbl_mybook').where('user_id', user_id)
                     .select('id as book_id', 'title', 'authors', 'translators', 'publisher', 'thumbnail_url as titleImage', 'reading', 'favorite');
 
       // sortTyple 별로 출력, limit: 조회할 데이터의 개수 지정, offset: 조회할 데이터의 시작 위치를 지정 
       // -> offset번째 데이터부터 perPage 개수만큼의 데이터를 조회
-      if (sortType === 'latest') {
-        query.orderBy('updated_at', 'desc').limit(perPage).offset(offset);
-      } else if (sortType === 'past') {
-        query.orderBy('updated_at', 'asc').limit(perPage).offset(offset);
-      } else if (sortType === 'favorite') {
-        query.andWhere('favorite', true).orderBy('updated_at', 'desc').limit(perPage).offset(offset);
+      if (sortType === 'favorite') {
+        query.andWhere('favorite', true)
       } else if (sortType === 'reading') {
-        query.andWhere('reading', true).orderBy('updated_at', 'desc').limit(perPage).offset(offset);
+        query.andWhere('reading', true)
       }
+      query.orderBy('updated_at', (sortType === 'past'? 'asc':'desc'))
+      query.limit(perPage).offset(offset);
 
     const [countResult, dataResult] = await Promise.all([countQuery, query]);
     
     // totalCount가 undefined일 때 0으로 설정
-    const totalCount = parseInt(countResult[0].count) || 0;
-
+    const totalCount = parseInt(countResult.count) || 0;
+    
     // 현재 페이지는 현재 페이지
     const currentPage = Math.floor((offset / parseInt(perPage))) + 1;
 
