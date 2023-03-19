@@ -12,6 +12,15 @@ class AccountRepository {
         const query = pgClient.select('*').from('tbl_account').where('tbl_account.id', userId)
         return await query
     }
+
+    async getAccountByBookId(bookId){
+        const query = pgClient.select('*')
+                        .from('tbl_account as ta').join('tbl_mybook as tb', 'ta.id','=','tb.user_id')
+                        .where('tb.id', bookId).whereNull("ta.deleted_at").whereNull("tb.deleted_at")
+        return await query
+    }
+
+    
 }
 
 module.exports = {

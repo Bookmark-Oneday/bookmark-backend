@@ -5,9 +5,10 @@ const errCodeString = {
     InvalidParameter    : 'ERR-0002',
     InvalidUUID         : 'ERR-0003',
     UserNotFound        : 'ERR-0004',
+    BookNotFound        : 'ERR-0005'
 }
 
-class MissingRequestPatameter extends serviceError {
+class MissingRequestParameter extends serviceError {
     constructor(paramName){
         const message = `${paramName} is required`
         super(message, 400, errCodeString.MissingParameter)
@@ -34,15 +35,26 @@ class InvalidUUID extends serviceError {
 
 class AccountNotFound extends serviceError {
     constructor(userId){
-        const message = `Can not find acount ${userId}`
-        super(message, 400, errCodeString.InvalidUUID)
+        const message = `Can not find account ${userId}`
+        super(message, 400, errCodeString.UserNotFound)
         this.name = this.constructor.name
     }
+    
+}
+
+class MyBookNotFound extends serviceError {
+    constructor(bookId){
+        const message = `Can not find book ${bookId}`
+        super(message, 400, errCodeString.BookNotFound)
+        this.name = this.constructor.name
+    }
+    
 }
 
 module.exports = {
-    MissingRequestPatameter,
+    MissingRequestParameter,
     InvalidRequestParameter,
     InvalidUUID,
-    AccountNotFound
+    AccountNotFound,
+    MyBookNotFound
 }

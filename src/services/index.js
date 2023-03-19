@@ -4,6 +4,8 @@ const errorService = require('./errorService')
 const postingService = require('./postingService')
 const accountService = require('./accountService')
 const adminService = require('./adminService')
+const bookTimerService = require('./bookTimerService')
+const DecoratorService = require('../dao/bookTimerDecorator')
 
 module.exports = {
     ...healthcheckService,
@@ -12,4 +14,6 @@ module.exports = {
     ...postingService,
     ...accountService,
     ...adminService,
+    ...bookTimerService,
+    ...DecoratorService
 }
