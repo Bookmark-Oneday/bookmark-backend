@@ -34,6 +34,8 @@ class AccountService {
             throw new InvalidOauthType(oauthType)
         }
 
+        
+        
         const accountDao = new AccountDao()
         const accountInfo = await accountDao.getAccountInfoByOauthId(oauthId, oauthType)
         return accountInfo

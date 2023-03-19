@@ -15,6 +15,31 @@ const getBookTimer = async (ctx)=>{
     if(bookId){
         ctx.body = await inst.getBookTimerByBookId(bookId)
     }
+
+    const deleteReadingTime = async (ctx)=>{
+        const {
+            params: {
+                bookId
+            }
+        } = ctx
+
+        let bookHistoryId;
+
+        if (ctx.request.query && ctx.request.query.historyId ){
+            bookHistoryId = ctx.query.historyId
+        }
+    
+        const inst = new BookTimerService()
+    
+        if(bookId){
+            ctx.body = await inst.removeReadingTime(bookId, bookHistoryId)
+            ctx.body.meta = {
+                requestId: ctx.state.requestId,
+                now: +new Date(),
+            }
+        }
+        
+    
 }
 
 const postReadingTime = async (ctx)=>{
@@ -45,7 +70,11 @@ const postReadingTime = async (ctx)=>{
 
 
 
+
+
 module.exports = { 
     getBookTimer,
-    postReadingTime
+    postReadingTime,
+    deleteReadingTime
+
 }

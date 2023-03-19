@@ -8,7 +8,9 @@ const errCodeString = {
     BookNotFound        : 'ERR-0005',
     InvalidOauthType    : 'ERR-0006',
     InvalidINT          : 'ERR-0007',
-    ServerError         : 'ERR-0008'
+    ServerError         : 'ERR-0008',
+    BookHistoryNotFound : 'ERR-0009'
+
 }
 
 class MissingRequestParameter extends serviceError {
@@ -70,6 +72,16 @@ class MyBookNotFound extends serviceError {
     
 }
 
+class BookHistoryNotFound extends serviceError {
+    constructor(bookHistoryId){
+        const message = `Can not find book history ${bookHistoryId}`
+        super(message, 400, errCodeString.BookHistoryNotFound)
+        this.name = this.constructor.name
+    }    
+
+    
+}
+
 class InternalServerError extends serviceError {
     constructor(){
         const message = `Internal server error`
@@ -86,6 +98,8 @@ module.exports = {
     MyBookNotFound,
     InvalidOauthType,
     InvalidINT,
-    InternalServerError
+    InternalServerError,
+    BookHistoryNotFound
+
     
 }
