@@ -14,11 +14,11 @@ class MyListService {
         return this._serviceName
     }
 
-    async getMyList(sortType, perPage, continuousToken){
+    async getMyList(user_id, sortType, perPage, continuousToken){
       
         const myListDao = new MyListDao()
 
-        const myList = await myListDao.getMyList(sortType, perPage, continuousToken)
+        const myList = await myListDao.getMyList(user_id, sortType, perPage, continuousToken)
         
         return myList
     }

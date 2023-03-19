@@ -8,16 +8,16 @@ class MyListRepository {
         return this._repositoryName
     }
 
-    async getMyList(sortType, perPage, continuousToken) {
+    async getMyList(user_id, sortType, perPage, continuousToken) {
       // continuousToken은 이전 페이지의 수.
       // offset: 전체 데이터에서 현재 페이지에 해당하는 데이터의 인덱스 값 0부터 시작, 값이 존재하면 continuousToken 아니면 0
       const offset = continuousToken ? parseInt(continuousToken) * parseInt(perPage)  : 0;
       // const offset = continuousToken ? parseInt(continuousToken)  : 0;
-
+      
       // 데이터의 총 개수 구하기
-      const countQuery = pgClient('tbl_mybook').count();
+      const countQuery = pgClient('tbl_mybook').where('user_id', user_id).count();
 
-      const query = pgClient('tbl_mybook')
+      const query = pgClient('tbl_mybook').where('user_id', user_id)
                     .select('id as book_id', 'title', 'authors', 'translators', 'publisher', 'thumbnail_url as titleImage', 'reading', 'favorite');
 
       // sortTyple 별로 출력, limit: 조회할 데이터의 개수 지정, offset: 조회할 데이터의 시작 위치를 지정 

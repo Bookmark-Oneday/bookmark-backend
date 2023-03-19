@@ -12,10 +12,10 @@ class MyListDao {
         return this._daoName
     }
 
-    async getMyList(sortType, perPage, continuousToken){
+    async getMyList(user_id, sortType, perPage, continuousToken){
         const MyListRepo = new MyListRepository()
 
-        const myList = await MyListRepo.getMyList(sortType, perPage, continuousToken)
+        const myList = await MyListRepo.getMyList(user_id, sortType, perPage, continuousToken)
 
         const result = {
             data_meta :  myList
