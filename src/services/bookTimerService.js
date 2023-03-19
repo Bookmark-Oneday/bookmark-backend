@@ -47,6 +47,37 @@ class BookTimerService {
         return bookTimerInfo
     }
 
+    async removeReadingTime(bookId, bookHistoryId){
+
+        // uuid type check
+        if (!validator.isUUID(bookId)){
+            throw new InvalidUUID(bookId)
+        }
+
+        if (bookHistoryId){
+            if (!validator.isUUID(bookHistoryId)){
+                throw new InvalidUUID(bookHistoryId)
+            }
+        }
+
+        const bookTimerDao = new BookTimerDao()
+
+        const bookTimerInfo = await bookTimerDao.getBookTimerInfoByBookId(bookId)
+
+        let deleteHistory;
+
+
+        if (bookHistoryId){
+            deleteHistory = await bookTimerDao.deleteReadingTimeByHistoryId(bookId, bookHistoryId)
+        }
+        else{
+            deleteHistory = await bookTimerDao.deleteReadingTimeByBookId(bookId)
+        }
+
+
+        return bookTimerInfo
+    }
+
 
 }
 

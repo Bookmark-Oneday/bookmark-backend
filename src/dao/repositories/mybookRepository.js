@@ -17,6 +17,15 @@ class MyBookRepository {
                         .first()
         return await query
     }
+
+    async getBookByBookId(bookId){
+        const query = pgClient.select('*')
+                        .from('tbl_mybook as tb')
+                        .where('tb.id', bookId)
+                        .whereNull('tb.deleted_at')
+                        .first()
+        return await query
+    }
 }
 
 module.exports = {

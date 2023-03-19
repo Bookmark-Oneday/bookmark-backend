@@ -28,6 +28,7 @@ class BookHistoryRepository {
                         .from('tbl_myhistory as th')
                         .where('th.id', bookHistoryId)
                         .whereNull('th.deleted_at')
+                        .first()
 
         return await query
     }
@@ -53,6 +54,32 @@ class BookHistoryRepository {
                                         .then(trx.commit) 
                                         .catch(trx.rollback)});
 
+        return await query
+
+
+    }
+
+    async removeReadingTimeByBookHistoryId(bookHistoryId){
+        
+        const query = pgClient.transaction(function(trx) {
+                                        pgClient.table('tbl_myhistory')
+                                        .update({deleted_at : pgClient.raw('now()')})
+                                        .where('id', bookHistoryId)
+                                        .then(trx.commit) 
+                                        .catch(trx.rollback)});
+
+        return await query
+
+
+    }
+
+    async removeReadingTimeByBookId(bookId){
+        const query = pgClient.transaction(function(trx) {
+                                        pgClient.table('tbl_mybook')
+                                        .update({deleted_at : pgClient.raw('now()')})
+                                        .where('id', bookId)
+                                        .then(trx.commit) 
+                                        .catch(trx.rollback)});
         return await query
 
 

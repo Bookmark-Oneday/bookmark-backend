@@ -1,7 +1,8 @@
 const { BookHistoryRepository } = require('./repositories/bookHistoryRepository')
+const { MyBookRepository } = require('./repositories/myBookRepository')
 const { AccountRepository } = require('./repositories/accountRepository')
 const { BookTimerDecorator } = require('./bookTimerDecorator')
-const { MyBookNotFound, InternalServerError } = require('../services/errorService')
+const { MyBookNotFound, InternalServerError, BookHistoryNotFound } = require('../services/errorService')
 
 class BookTimerDao {
     constructor(){
@@ -63,6 +64,69 @@ class BookTimerDao {
         }
         return result
     }
+
+    async deleteReadingTimeByHistoryId(bookId, bookHistoryId){
+        const accountRepo = new AccountRepository()
+        const bookHistoryRepo = new BookHistoryRepository()
+
+        const accountInfo = await accountRepo.getAccountByBookId(bookId)
+        const bookHistoryInfo = await bookHistoryRepo.getBookHistoryByBookHistoryId(bookHistoryId)
+        
+        // deleted book check
+        if (!accountInfo){
+            throw new MyBookNotFound(bookId)
+        }
+
+        // deleted book history check
+        if (!bookHistoryInfo){
+            throw new BookHistoryNotFound(bookId)
+        }
+
+        const deleteResults = await bookHistoryRepo.removeReadingTimeByBookHistoryId(bookHistoryId)
+
+        const removedBookHistoryResult = 
+                        await bookHistoryRepo.getBookHistoryByBookHistoryId(bookHistoryId)
+        
+        // if id of added book history is in table, throw error
+        if (removedBookHistoryResult){
+            throw new InternalServerError()
+        }
+
+        const result = {
+            data : deleteResults
+        }
+        return result
+    }
+
+    async deleteReadingTimeByBookId(bookId){
+        const accountRepo = new AccountRepository()
+        const bookHistoryRepo = new BookHistoryRepository()
+        const myBookRepo = new MyBookRepository()
+
+        const accountInfo = await accountRepo.getAccountByBookId(bookId)
+        
+        // deleted book check
+        if (!accountInfo){
+            throw new MyBookNotFound(bookId)
+        }
+
+        const deleteResults = await bookHistoryRepo.removeReadingTimeByBookId(bookId)
+
+        //id check
+        const removedBookResult = 
+                        await myBookRepo.getBookByBookId(bookId)
+        
+        // if id of added book history is in table, throw error
+        if (removedBookResult){
+            throw new InternalServerError()
+        }
+
+
+        const result = {
+            data : deleteResults
+        }
+        return result
+    } 
 }
 
 module.exports = { BookTimerDao }
