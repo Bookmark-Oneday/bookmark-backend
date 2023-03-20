@@ -1,5 +1,4 @@
 const { BookHistoryRepository } = require('./repositories/bookHistoryRepository')
-const { MyBookRepository } = require('./repositories/myBookRepository')
 const { AccountRepository } = require('./repositories/accountRepository')
 const { BookTimerDecorator } = require('./bookTimerDecorator')
 
@@ -53,7 +52,7 @@ class BookTimerDao {
         const postResult = await bookHistoryRepo.insertReadingTimeByBookId(accountInfo.user_id, bookId, reading_time)
 
         // postResult check
-        if (!postResult || !postResult[0].hasOwnProperty('id')){
+        if (!postResult || !postResult.length < 0){
             throw new InternalServerError()
         }
 
