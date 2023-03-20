@@ -8,8 +8,7 @@ class BookHistoryRepository {
     get name(){
         return this._repositoryName
     }
-
-
+    
     async getBookHistoryListByBookId(bookId){
         const query = pgClient.select('*')
                         .from('tbl_mybook as tb')
@@ -20,6 +19,7 @@ class BookHistoryRepository {
                         .orderBy('th.updated_at', 'desc')
                         .limit(100)
 
+
         return await query
     }
 
@@ -29,6 +29,7 @@ class BookHistoryRepository {
                         .where('th.id', bookHistoryId)
                         .whereNull('th.deleted_at')
                         .first()
+
 
 
         return await query
