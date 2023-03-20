@@ -18,13 +18,9 @@ class BookInfoDecorator {
             "current_page" : bookInfo.current_page, 
             "total_page" : bookInfo.total_page,
             "history": historyInfo.map(item=>({id: item.id, date: new Date(item.created_at).toISOString(), time: item.reading_time}))
-        }
-
+        }  
         return data
     }
-
-
-
 }
 
 module.exports = { BookInfoDecorator }

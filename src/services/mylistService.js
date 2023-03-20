@@ -14,6 +14,7 @@ class MyListService {
         return this._serviceName
     }
 
+
     async getBookInfo(bookId){
       
         // uuid type check
@@ -32,6 +33,16 @@ class MyListService {
 
         return bookInfo
 }
+
+    async getMyList(userId, sortType, perPage, continuousToken){
+      
+        const myListDao = new MyListDao()
+
+        const myList = await myListDao.getMyList(userId, sortType, perPage, continuousToken)
+        
+        return myList
+    }
+
 
 }
 

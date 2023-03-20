@@ -4,9 +4,9 @@ const libraryController = require('../../controllers/libraryController')
 const libraryRouteAPIV1 = (root)=>{
     const router = Router();
 
-    //router.get('/', libraryController.getMyList); //
+    router.get('/', libraryController.getMyList); 
     router.get('/:bookId', libraryController.getBookInfo);
-   
+
     root.use('/library/mylist', router.routes())
 }
 
