@@ -49,7 +49,6 @@ class BookHistoryRepository {
                                         .then(trx.commit) 
                                         .catch(trx.rollback)
                                     });
-
         return await query
     }
     async removeReadingTimeByBookHistoryId(bookHistoryId){
@@ -60,7 +59,6 @@ class BookHistoryRepository {
                                         .then(trx.commit) 
                                         .catch(trx.rollback)
                                     });
-
         return await query
     }
 
