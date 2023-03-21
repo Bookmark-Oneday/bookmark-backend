@@ -1,5 +1,5 @@
 const validator = require('validator')
-const { InvalidUUID, InternalServerError } = require('./errorService')
+const { InvalidUUID, InvalidINT } = require('./errorService')
 const { BookTimerDao } = require('../dao/bookTimerDao')
 
 class BookTimerService {
@@ -12,21 +12,18 @@ class BookTimerService {
     }
 
     async getBookTimerByBookId(bookId){
-
         // uuid type check
         if (!validator.isUUID(bookId)){
             throw new InvalidUUID(bookId)
         }
 
         const bookTimerDao = new BookTimerDao()
-
         const bookTimerInfo = await bookTimerDao.getBookTimerInfoByBookId(bookId)
 
         return bookTimerInfo
     }
 
     async addReadingTime(bookId, readingTime){
-
         // uuid type check
         if (!validator.isUUID(bookId)){
             throw new InvalidUUID(bookId)
@@ -41,14 +38,12 @@ class BookTimerService {
 
         // add new timer history
         const addedHistory = await bookTimerDao.postReadingTimeInfo(bookId, readingTime)
-
         const bookTimerInfo = await bookTimerDao.getBookTimerInfoByBookId(bookId)
 
         return bookTimerInfo
     }
 
     async removeReadingTime(bookId, bookHistoryId){
-
         // uuid type check
         if (!validator.isUUID(bookId)){
             throw new InvalidUUID(bookId)
@@ -61,20 +56,15 @@ class BookTimerService {
         }
 
         const bookTimerDao = new BookTimerDao()
-
         const bookTimerInfo = await bookTimerDao.getBookTimerInfoByBookId(bookId)
 
         let deleteHistory;
-
-
         if (bookHistoryId){
             deleteHistory = await bookTimerDao.deleteReadingTimeByHistoryId(bookId, bookHistoryId)
         }
         else{
             deleteHistory = await bookTimerDao.deleteReadingTimeByBookId(bookId)
         }
-
-
         return bookTimerInfo
     }
 
