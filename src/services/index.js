@@ -6,9 +6,9 @@ const accountService = require("./accountService");
 const adminService = require("./adminService");
 const bookTimerService = require("./bookTimerService");
 const DecoratorService = require("../dao/bookTimerDecorator");
+const bookShelfService = require("./bookShelfService");
 const lastPageService = require("./lastPageService");
 const mylistService = require('./mylistService')
-
 
 
 module.exports = {
@@ -21,5 +21,6 @@ module.exports = {
     ...mylistService,
     ...bookTimerService,
     ...DecoratorService,
+    ...bookShelfService,
     ...lastPageService,
 };
