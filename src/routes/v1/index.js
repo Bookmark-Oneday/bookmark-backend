@@ -3,8 +3,10 @@ const { boardRouteV1 } = require("./boardRouteV1");
 const { accountRouteV1 } = require("./accountRouteV1");
 const { adminRouteV1 } = require("./adminRouteV1");
 const { bookTimerRouteV1 } = require("./bookTimerRouteV1");
+
 const { lastPageRouteV1 } = require("./lastPageRouteV1");
 const { libraryRouteV1 } = require('./libraryRouteV1')
+const { bookShelfRouteV1 } = require("./bookShelfRouteV1");
 
 
 const V1 = () => {
@@ -15,8 +17,7 @@ const V1 = () => {
     bookTimerRouteV1(router);
     lastPageRouteV1(router);
     libraryRouteV1(router);
-
-
+    bookShelfRouteV1(router);
 
     return router;
 };

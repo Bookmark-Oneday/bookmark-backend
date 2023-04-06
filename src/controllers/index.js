@@ -5,6 +5,7 @@ const adminController = require("./adminController");
 const bookTimerController = require("./bookTimerController");
 const libraryController = require('./libraryController')
 const lastPageController = require("./lastPageController");
+const bookShelfController = require("./bookShelfController");
 
 
 module.exports = {
@@ -13,6 +14,7 @@ module.exports = {
     ...userController,
     ...adminController,
     ...bookTimerController,
+    ...bookShelfController,
     ...lastPageController,
     ...libraryController
 }

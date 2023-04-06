@@ -1,12 +1,15 @@
-const { BookTimerService } = require('../services')
-const { MissingRequestParameter, InvalidRequestParameter } = require('../services/errorService')
+const { BookTimerService } = require("../services");
+const {
+    MissingRequestParameter,
+    InvalidRequestParameter,
+} = require("../services/errorService");
+
 
 const getBookTimer = async (ctx)=>{
     const {
-        params: {
-            bookId
-        }
-    } = ctx
+        params: { bookId },
+    } = ctx;
+
 
     if (!bookId){
         throw new InvalidRequestParameter('bookId')
@@ -41,10 +44,9 @@ const deleteReadingTime = async (ctx)=>{
 
 const postReadingTime = async (ctx)=>{
     const {
-        params: {
-            bookId
-        }
-    } = ctx
+        params: { bookId },
+    } = ctx;
+
 
     if (!bookId){
         throw new InvalidRequestParameter('bookId')
@@ -56,6 +58,8 @@ const postReadingTime = async (ctx)=>{
     if (readingTime < 0){
         throw new InvalidRequestParameter("readingTime")
     }
+};
+
 
     const inst = new BookTimerService()
     ctx.body = await inst.addReadingTime(bookId, readingTime)
