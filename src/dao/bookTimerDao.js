@@ -1,5 +1,4 @@
 const { BookHistoryRepository } = require('./repositories/bookHistoryRepository')
-const { MyBookRepository } = require('./repositories/myBookRepository')
 const { AccountRepository } = require('./repositories/accountRepository')
 const { BookTimerDecorator } = require('./bookTimerDecorator')
 
@@ -44,7 +43,6 @@ class BookTimerDao {
         const bookHistoryRepo = new BookHistoryRepository()
 
         const accountInfo = await accountRepo.getAccountByBookId(bookId)
-        
         // deleted book check
         if (!accountInfo){
             throw new MyBookNotFound(bookId)
@@ -53,7 +51,7 @@ class BookTimerDao {
         const postResult = await bookHistoryRepo.insertReadingTimeByBookId(accountInfo.user_id, bookId, reading_time)
 
         // postResult check
-        if (!postResult || !postResult[0].hasOwnProperty('id')){
+        if (!postResult || !postResult.length < 0){
             throw new InternalServerError()
         }
 
@@ -123,7 +121,7 @@ class BookTimerDao {
 
         
         // if id of added book history is in table, throw error
-        if (removedBookResult){
+        if (removedBookResult[0]){
             throw new InternalServerError()
         }
 
