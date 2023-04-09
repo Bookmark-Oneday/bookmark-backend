@@ -11,6 +11,7 @@ const errCodeString = {
     ServerError: "ERR-0008",
     BookHistoryNotFound: "ERR-0009",
     DuplicateBook: "ERR-0010",
+};
 
 class MissingRequestParameter extends serviceError {
     constructor(paramName) {
@@ -74,16 +75,6 @@ class BookHistoryNotFound extends serviceError {
         super(message, 400, errCodeString.BookHistoryNotFound);
         this.name = this.constructor.name;
     }
-}
-
-class BookHistoryNotFound extends serviceError {
-    constructor(bookHistoryId){
-        const message = `Can not find book history ${bookHistoryId}`
-        super(message, 400, errCodeString.BookHistoryNotFound)
-        this.name = this.constructor.name
-    }    
-
-    
 }
 
 class InternalServerError extends serviceError {
