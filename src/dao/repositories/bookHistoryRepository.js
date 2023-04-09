@@ -1,6 +1,5 @@
 const pgClient = require('../connections/postgresql')
 
-
 class BookHistoryRepository {
     constructor(){
         this._repositoryName = 'BookHistoryRepository'
@@ -8,7 +7,6 @@ class BookHistoryRepository {
     get name(){
         return this._repositoryName
     }
-
 
     async getBookHistoryListByBookId(bookId){
         const query = pgClient.select('*')
@@ -19,7 +17,6 @@ class BookHistoryRepository {
                         .whereNull('th.deleted_at')
                         .orderBy('th.updated_at', 'desc')
                         .limit(100)
-
         return await query
     }
 
@@ -29,7 +26,6 @@ class BookHistoryRepository {
                         .where('th.id', bookHistoryId)
                         .whereNull('th.deleted_at')
                         .first()
-
 
         return await query
     }
@@ -44,7 +40,6 @@ class BookHistoryRepository {
     }
 
     async insertReadingTimeByBookId(userId, bookId, readingTime){
-        
         const query = pgClient.transaction(function(trx) {
                                         pgClient.insert({id:pgClient.raw('gen_random_uuid()') , 
                                         user_id : userId, 
@@ -53,11 +48,30 @@ class BookHistoryRepository {
                                         .into('tbl_myhistory')
                                         .returning('id')
                                         .then(trx.commit) 
-                                        .catch(trx.rollback)});
-
+                                        .catch(trx.rollback)
+                                    });
         return await query
+    }
+    async removeReadingTimeByBookHistoryId(bookHistoryId){
+        const query = pgClient.transaction(function(trx) {
+                                        pgClient.table('tbl_myhistory')
+                                        .update({deleted_at : pgClient.raw('now()')})
+                                        .where('id', bookHistoryId)
+                                        .then(trx.commit) 
+                                        .catch(trx.rollback)
+                                    });
+        return await query
+    }
 
-
+    async removeReadingTimeByBookId(bookId){
+        const query = pgClient.transaction(function(trx) {
+                                        pgClient.table('tbl_myhistory')
+                                        .update({deleted_at : pgClient.raw('now()')})
+                                        .where('mybook_id', bookId)
+                                        .then(trx.commit) 
+                                        .catch(trx.rollback)
+                                    });
+        return await query
     }
     async removeReadingTimeByBookHistoryId(bookHistoryId){
         

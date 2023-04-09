@@ -26,7 +26,6 @@ const deleteReadingTime = async (ctx)=>{
     if (!bookId){
         throw new InvalidRequestParameter('bookId')
     }
-    
     if (Object.keys(ctx.request.query).length != 0 && !ctx.request.query.historyId ){
         throw new InvalidRequestParameter('historyId')
     }
