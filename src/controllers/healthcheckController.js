@@ -8,6 +8,12 @@ const healthcheck = async (ctx)=>{
         version : versionInfo,
         heapInformation : heapInfo,
     }
+
+    console.log('parameter : \n', ctx.request.query, Object.keys(ctx.request.query).length)
+
+    if(ctx.request.query.historyId){
+        console.log('existed')
+    }
 }
 
 const exceptionCheck = async (ctx)=>{
