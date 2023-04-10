@@ -9,7 +9,7 @@ const getBookTimer = async (ctx)=>{
     } = ctx
 
     if (!bookId){
-        throw new InvalidRequestParameter('bookId')
+        throw new MissingRequestParameter('bookId')
     }
 
     const inst = new BookTimerService()
@@ -24,10 +24,10 @@ const deleteReadingTime = async (ctx)=>{
     } = ctx
 
     if (!bookId){
-        throw new InvalidRequestParameter('bookId')
+        throw new MissingRequestParameter('bookId')
     }
     if (Object.keys(ctx.request.query).length != 0 && !ctx.request.query.historyId ){
-        throw new InvalidRequestParameter('historyId')
+        throw new MissingRequestParameter('historyId')
     }
 
     const bookHistoryId = ctx.request.query.historyId
@@ -47,14 +47,14 @@ const postReadingTime = async (ctx)=>{
     } = ctx
 
     if (!bookId){
-        throw new InvalidRequestParameter('bookId')
+        throw new MissingRequestParameter('bookId')
     }
     if (!ctx.request.body || (!ctx.request.body.reading_time && ctx.request.body.reading_time != 0)){
         throw new MissingRequestParameter("reading_time")
     }
     const readingTime = 0 + ctx.request.body.reading_time
     if (readingTime < 0){
-        throw new InvalidRequestParameter("readingTime")
+        throw new InvalidRequestParameter("reading_time")
     }
 
     const inst = new BookTimerService()
