@@ -121,7 +121,7 @@ class BookTimerDao {
 
         
         // if id of added book history is in table, throw error
-        if (removedBookResult[0]){
+        if(removedBookResult && removedBookResult.length > 0)
             throw new InternalServerError()
         }
 
