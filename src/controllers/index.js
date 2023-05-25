@@ -6,7 +6,7 @@ const bookTimerController = require("./bookTimerController");
 const libraryController = require('./libraryController')
 const lastPageController = require("./lastPageController");
 const bookShelfController = require("./bookShelfController");
-
+const onelinerController = require("./onelinerController");
 
 module.exports = {
     ...healthcheckController,
@@ -16,5 +16,6 @@ module.exports = {
     ...bookTimerController,
     ...bookShelfController,
     ...lastPageController,
-    ...libraryController
+    ...libraryController,
+    ...onelinerController
 }

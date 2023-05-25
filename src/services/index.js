@@ -9,7 +9,7 @@ const DecoratorService = require("../dao/bookTimerDecorator");
 const bookShelfService = require("./bookShelfService");
 const lastPageService = require("./lastPageService");
 const mylistService = require('./mylistService')
-
+const onelinerService = require('./onelinerService');
 
 module.exports = {
     ...healthcheckService,
@@ -23,4 +23,5 @@ module.exports = {
     ...DecoratorService,
     ...bookShelfService,
     ...lastPageService,
+    ...onelinerService,
 };
