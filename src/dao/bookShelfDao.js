@@ -1,4 +1,8 @@
-const { DuplicateBook } = require("../services/errorService");
+const {
+    DuplicateBook,
+    InvalidUUID,
+    MyBookNotFound,
+} = require("../services/errorService");
 const { BookShelfRepository } = require("./repositories/bookShelfRepository");
 
 class BookShelfDao {
@@ -41,6 +45,16 @@ class BookShelfDao {
         const bookShelfRepo = new BookShelfRepository();
 
         const { user_id, book_id } = book;
+
+        const checkUser = await bookShelfRepo.getBookByUserId(user_id);
+        if (checkUser.length === 0) {
+            throw new InvalidUUID(user_id);
+        }
+
+        const checkBook = await bookShelfRepo.getBookByBookId(book_id);
+        if (checkBook.length === 0) {
+            throw new MyBookNotFound(book_id);
+        }
 
         const updatedRows = await bookShelfRepo.deleteBook({
             user_id,

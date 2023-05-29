@@ -17,6 +17,22 @@ class BookShelfRepository {
             .select();
     }
 
+    async getBookByUserId(userId) {
+        return await pgClient("tbl_mybook")
+            .where({
+                user_id: userId,
+            })
+            .select();
+    }
+
+    async getBookByBookId(bookId) {
+        return await pgClient("tbl_mybook")
+            .where({
+                id: bookId,
+            })
+            .select();
+    }
+
     async registerBook(book) {
         const {
             user_id,
