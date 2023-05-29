@@ -28,6 +28,8 @@ exports.up = (knex) => {
         table.string('bg_image_url', 2048)
         table.jsonb('meta').notNullable().defaultTo(JSON.stringify({}))
         table.timestamp('created_at').defaultTo(knex.fn.now()).index('tbl_oneliner_created_at_index')
+        table.timestamp('updated_at').defaultTo(knex.fn.now())
+        table.timestamp('deleted_at')
     })
 }
 
