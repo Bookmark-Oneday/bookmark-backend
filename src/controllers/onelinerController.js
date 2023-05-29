@@ -19,16 +19,19 @@ const postOneliner = async (ctx) => {
 
   const onelinerService = new OnelinerService();
   
-  const result = await onelinerService.postOneliner(userId, book_id,
-    title,
-    authors,
-    oneliner,
-    color,
-    top,
-    left,
-    font,
-    font_size,
-    bg_image_url);
+  const result = await onelinerService.postOneliner({
+    userId: userId,
+    book_id: book_id,
+    title: title,
+    authors: authors,
+    oneliner: oneliner,
+    color: color,
+    top: top,
+    left: left,
+    font: font,
+    font_size: font_size,
+    bg_image_url: bg_image_url
+  });
 
   const data = { 
     oneliner: 
