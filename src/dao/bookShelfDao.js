@@ -36,6 +36,19 @@ class BookShelfDao {
 
         return updatedRows;
     }
+
+    async deleteBook(book) {
+        const bookShelfRepo = new BookShelfRepository();
+
+        const { user_id, book_id } = book;
+
+        const updatedRows = await bookShelfRepo.deleteBook({
+            user_id,
+            book_id,
+        });
+
+        return updatedRows;
+    }
 }
 
 module.exports = { BookShelfDao };
