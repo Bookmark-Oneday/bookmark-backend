@@ -1,3 +1,4 @@
+const { result } = require('lodash');
 const pgClient = require('../connections/postgresql')
 
 class OnelinerRepository {
@@ -29,6 +30,22 @@ class OnelinerRepository {
         dataResult
       };
       }
+    async onelinerIdIsValid(onelinerId){
+        const query = pgClient('tbl_oneliner')
+                                    .where('id', onelinerId)
+                                    .select('*')
+                                    .first();
+
+        const result = await query
+        return result;
+    }
+    async deleteOnelinerByOnelinerId(onelinerId) {
+        const query = pgClient('tbl_oneliner')
+                                .where('id', onelinerId)
+                                .del();
+        const result = await query
+        return result;
+    }
 }
 
 module.exports = {

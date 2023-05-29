@@ -1,5 +1,5 @@
 const { OnelinerService } = require('../services')
-
+const { MissingRequestParameter } = require('../services/errorService')
 
 const getOneliner = async (ctx) => {
   const { sortType = 'latest', perPage = 5, continuousToken = 0 } = ctx.query; // 첫 페이지를 0으로 함
@@ -32,6 +32,29 @@ const getOneliner = async (ctx) => {
   };
 };
 
+const deleteOneliner = async (ctx)=>{
+  const {
+      params: {
+          onelinerId
+      }
+  } = ctx
+
+  if (!onelinerId){
+    throw new MissingRequestParameter('bookId')
+  }
+
+  const onelinerService = new OnelinerService();
+
+  const result = await onelinerService.deleteOneliner(onelinerId);
+
+  ctx.body = result;
+  ctx.body.meta = {
+      requestId: ctx.state.requestId,
+      now: +new Date(),
+  };
+};
+
 module.exports = { 
-    getOneliner
+    getOneliner,
+    deleteOneliner
 }

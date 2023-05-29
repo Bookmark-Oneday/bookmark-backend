@@ -5,7 +5,7 @@ const onelinerRouteAPIV1 = (root)=>{
     const router = Router();
 
     router.get('/', onelinerController.getOneliner); 
-
+    router.delete('/:onelinerId', onelinerController.deleteOneliner)
     root.use('/oneliner', router.routes())
 }
 
