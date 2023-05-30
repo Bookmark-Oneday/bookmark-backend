@@ -40,9 +40,13 @@ class OnelinerRepository {
         return result;
     }
     async deleteOnelinerByOnelinerId(onelinerId) {
+        const deletedAtUTC = new Date().toISOString();
+        const deletedAtKST = new Date(new Date(deletedAtUTC).getTime() + (9 * 60 * 60 * 1000)).toISOString();
+
         const query = pgClient('tbl_oneliner')
                                 .where('id', onelinerId)
-                                .del();
+                                .update('deleted_at', deletedAtKST);
+
         const result = await query
         return result;
     }
