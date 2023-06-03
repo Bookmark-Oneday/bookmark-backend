@@ -46,12 +46,10 @@ class BookShelfDao {
 
         const { user_id, book_id } = book;
 
-        const checkUser = await bookShelfRepo.getBookByUserId(user_id);
-        if (checkUser.length === 0) {
-            throw new InvalidUUID(user_id);
-        }
-
-        const checkBook = await bookShelfRepo.getBookByBookId(book_id);
+        const checkBook = await bookShelfRepo.getBookByUserIdAndBookId(
+            user_id,
+            book_id
+        );
         if (checkBook.length === 0) {
             throw new MyBookNotFound(book_id);
         }

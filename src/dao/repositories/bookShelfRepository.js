@@ -14,22 +14,17 @@ class BookShelfRepository {
                 user_id: userId,
                 isbn: isbn,
             })
+            .whereNull("deleted_at")
             .select();
     }
 
-    async getBookByUserId(userId) {
+    async getBookByUserIdAndBookId(userId, bookId) {
         return await pgClient("tbl_mybook")
             .where({
                 user_id: userId,
-            })
-            .select();
-    }
-
-    async getBookByBookId(bookId) {
-        return await pgClient("tbl_mybook")
-            .where({
                 id: bookId,
             })
+            .whereNull("deleted_at")
             .select();
     }
 
@@ -65,12 +60,16 @@ class BookShelfRepository {
 
     async deleteBook(book) {
         const { user_id, book_id, meta } = book;
+        const currentTimestamp = new Date().toISOString();
+
         const query = pgClient("tbl_mybook")
             .where({
                 user_id: user_id,
                 id: book_id,
             })
-            .del();
+            .update({
+                deleted_at: currentTimestamp,
+            });
 
         return await query;
     }

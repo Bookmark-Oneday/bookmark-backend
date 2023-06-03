@@ -83,7 +83,12 @@ const deleteBookController = async (ctx) => {
             now: +new Date(),
         },
     };
-    ctx.body = await bookShelfService.deleteBook(bookData);
+    const result = await bookShelfService.deleteBook(bookData);
+    if (result === 1) {
+        ctx.body = "SUCCESS";
+    } else {
+        ctx.body = "FAIL";
+    }
 };
 
 module.exports = {
