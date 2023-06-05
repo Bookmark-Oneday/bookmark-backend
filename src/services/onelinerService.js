@@ -15,7 +15,12 @@ class OnelinerService {
     }
 
     async getOneliner(userId, sortType, perPage, continuousToken){
-      
+        
+        // uuid type check
+        if (!validator.isUUID(userId)){
+            throw new InvalidUUID(userId)
+        }
+
         const onelinerDao = new OnelinerDao()
 
         const oneliner = await onelinerDao.getOneliner(userId, sortType, perPage, continuousToken)
