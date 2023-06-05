@@ -13,8 +13,8 @@ class MyListRepository {
       const countQuery = pgClient('tbl_mybook').where('user_id', userId).count().first();
 
       const query = pgClient('tbl_mybook').where('user_id', userId)
-                    .select('id as book_id', 'title', 'authors', 'translators', 'publisher', 'thumbnail_url as titleImage', 'reading', 'favorite');
-
+                    .select('id as book_id', 'title', 'authors', 'translators', 'publisher', 'thumbnail_url as titleImage', 'reading', 'favorite')
+                    .whereNull('deleted_at'); // deleted_at이 null인 것만 가져오도록 추가
       // sortTyple 별로 출력, limit: 조회할 데이터의 개수 지정, offset: 조회할 데이터의 시작 위치를 지정 
       // -> offset번째 데이터부터 perPage 개수만큼의 데이터를 조회
       if (sortType === 'favorite') {
