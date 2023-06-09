@@ -14,8 +14,8 @@ class OnelinerRepository {
       const countQuery = pgClient('tbl_oneliner').count();
 
       const query = pgClient('tbl_oneliner')
-                    .select('id', 'user_id', 'profile_image', 'nickname', 'book_id', 'title', 'authors', 'oneliner', 'color', 'top', 'left', 'font', 'font_size', 'bg_image_url', 'created_at');
-
+                    .select('id', 'user_id', 'profile_image', 'nickname', 'book_id', 'title', 'authors', 'oneliner', 'color', 'top', 'left', 'font', 'font_size', 'bg_image_url', 'created_at')
+                    .whereNull('deleted_at'); // deleted_at이 null인 것만 가져오도록 추가
       // sortType 별로 출력 (일단은 latest만), limit: 조회할 데이터의 개수 지정, offset: 조회할 데이터의 시작 위치를 지정 
       // -> offset번째 데이터부터 perPage 개수만큼의 데이터를 조회
 
