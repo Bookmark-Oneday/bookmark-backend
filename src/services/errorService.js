@@ -93,6 +93,14 @@ class DuplicateBook extends serviceError {
     }
 }
 
+class OnelinerIdNotFound extends serviceError {
+    constructor(onelinerId) {
+        const message = `Can not find book ${onelinerId}`;
+        super(message, 400, errCodeString.OnelinerNotFound);
+        this.name = this.constructor.name;
+    }
+}
+
 module.exports = {
     MissingRequestParameter,
     InvalidRequestParameter,
@@ -104,4 +112,5 @@ module.exports = {
     InternalServerError,
     BookHistoryNotFound,
     DuplicateBook,
+    OnelinerIdNotFound
 };

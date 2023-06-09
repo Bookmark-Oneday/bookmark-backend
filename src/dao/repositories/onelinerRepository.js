@@ -1,3 +1,4 @@
+const { result } = require('lodash');
 const pgClient = require('../connections/postgresql')
 
 class OnelinerRepository {
@@ -29,6 +30,26 @@ class OnelinerRepository {
         dataResult
       };
       }
+    async onelinerIdIsValid(onelinerId){
+        const query = pgClient('tbl_oneliner')
+                                    .where('id', onelinerId)
+                                    .select('*')
+                                    .first();
+
+        const result = await query
+        return result;
+    }
+    async deleteOnelinerByOnelinerId(onelinerId) {
+        const deletedAtUTC = new Date().toISOString();
+        const deletedAtKST = new Date(new Date(deletedAtUTC).getTime() + (9 * 60 * 60 * 1000)).toISOString();
+
+        const query = pgClient('tbl_oneliner')
+                                .where('id', onelinerId)
+                                .update('deleted_at', deletedAtKST);
+
+        const result = await query
+        return result;
+    }
 }
 
 module.exports = {

@@ -1,5 +1,6 @@
 const { OnelinerRepository } =  require('./repositories/onelinerRepository')
 const { OnelinerDecorator } = require('./onelinerDecorator')
+const { OnelinerIdNotFound} = require('../services/errorService')
 
 class OnelinerDao {
     constructor(){
@@ -35,6 +36,20 @@ class OnelinerDao {
             data :  onelinerInfo.data,
             meta :  onelinerInfo.meta
 
+        }
+        return result
+    }
+
+    async deleteOnelinerByOnelinerId(onelinerId){
+        const OnelinerRepo = new OnelinerRepository()
+        const onelinerIdIsValid = await OnelinerRepo.onelinerIdIsValid(onelinerId)
+        if (!onelinerIdIsValid){
+            throw new OnelinerIdNotFound(onelinerId)
+        }
+        const oneliner = await OnelinerRepo.deleteOnelinerByOnelinerId(onelinerId)
+        
+        const result = {
+            deleteData :  onelinerId,
         }
         return result
     }
