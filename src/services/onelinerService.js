@@ -55,6 +55,27 @@ class OnelinerService {
       
         return onelinerRows;
       }
+      async getOneliner(userId, sortType, perPage, continuousToken){
+      
+        const onelinerDao = new OnelinerDao()
+
+        const oneliner = await onelinerDao.getOneliner(userId, sortType, perPage, continuousToken)
+        
+        return oneliner
+    }
+
+    async deleteOneliner(onelinerId){
+        // uuid type check
+        if (!validator.isUUID(onelinerId)){
+            throw new InvalidUUID(onelinerId)
+        }
+
+        const onelinerDao = new OnelinerDao()
+
+        const oneliner = await onelinerDao.deleteOnelinerByOnelinerId(onelinerId)
+        
+        return oneliner
+    }
       
 }
 
