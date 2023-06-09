@@ -14,6 +14,12 @@ class BookShelfService {
         const updatedRows = await bookShelfDao.registerBook(book);
         return updatedRows;
     }
+
+    async deleteBook(book) {
+        const bookShelfDao = new BookShelfDao();
+        const updatedRows = await bookShelfDao.deleteBook(book);
+        return updatedRows;
+    }
 }
 
 module.exports = { BookShelfService };
