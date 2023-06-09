@@ -13,14 +13,50 @@ class OnelinerService {
     get serviceName(){
         return this._serviceName
     }
-
-    async getOneliner(userId, sortType, perPage, continuousToken){
+    
+    async postOneliner(data) {
+        const {
+          userId,
+          book_id,
+          title,
+          authors,
+          oneliner,
+          color,
+          top,
+          left,
+          font,
+          font_size,
+          bg_image_url
+        } = data;
         
-        // uuid type check
-        if (!validator.isUUID(userId)){
-            throw new InvalidUUID(userId)
+        // UUID type check
+        if (!validator.isUUID(userId)) {
+            throw new InvalidUUID(userId);
         }
 
+        if (!validator.isUUID(book_id)) {
+            throw new InvalidUUID(book_id);
+        }
+
+        const onelinerDao = new OnelinerDao();
+        const onelinerRows = await onelinerDao.postOneliner(
+          userId,
+          book_id,
+          title,
+          authors,
+          oneliner,
+          color,
+          top,
+          left,
+          font,
+          font_size,
+          bg_image_url
+        );
+      
+        return onelinerRows;
+      }
+      async getOneliner(userId, sortType, perPage, continuousToken){
+      
         const onelinerDao = new OnelinerDao()
 
         const oneliner = await onelinerDao.getOneliner(userId, sortType, perPage, continuousToken)
@@ -40,7 +76,7 @@ class OnelinerService {
         
         return oneliner
     }
-
+      
 }
 
-module.exports = { OnelinerService }
+module.exports = { OnelinerService };
