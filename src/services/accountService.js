@@ -1,5 +1,6 @@
 const validator = require('validator')
-const { InvalidUUID } = require('./errorService')
+const { constants } = require('../../deploy/config/constant')
+const { InvalidUUID, InvalidOauthType } = require('./errorService')
 const { AccountDao } = require('../dao/accountDao')
 
 class AccountService {
@@ -11,13 +12,33 @@ class AccountService {
         return this._serviceName
     }
 
-    async getAccountByUserId(userId){
-        if (!validator.isUUID(userId)){
-            throw new InvalidUUID(userId)
+    _isValidOauthType(type){
+        return constants.oauthType.includes(type.toLowerCase())
+    }
+
+    async getAccountByUserId(accountId){
+        if (!validator.isUUID(accountId)){
+            throw new InvalidUUID(accountId)
         }
 
         const accountDao = new AccountDao()
-        return await accountDao.getAccountInfo(userId)
+        return await accountDao.getAccountInfo(accountId)
+    }
+
+    async getAccountByOauthId(oauthId, oauthType){
+        if (!validator.isUUID(oauthId)){
+            throw new InvalidUUID(oauthId)
+        }
+
+        if(!this._isValidOauthType(oauthType)){
+            throw new InvalidOauthType(oauthType)
+        }
+
+        
+        
+        const accountDao = new AccountDao()
+        const accountInfo = await accountDao.getAccountInfoByOauthId(oauthId, oauthType)
+        return accountInfo
     }
 
     async addNewAccount(){

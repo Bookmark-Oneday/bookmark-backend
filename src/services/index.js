@@ -1,12 +1,15 @@
-const healthcheckService = require('./healthcheckService')
-const versionService = require('./versionService')
-const errorService = require('./errorService')
-const postingService = require('./postingService')
-const accountService = require('./accountService')
-const adminService = require('./adminService')
+const healthcheckService = require("./healthcheckService");
+const versionService = require("./versionService");
+const errorService = require("./errorService");
+const postingService = require("./postingService");
+const accountService = require("./accountService");
+const adminService = require("./adminService");
+const bookTimerService = require("./bookTimerService");
+const DecoratorService = require("../dao/bookTimerDecorator");
+const bookShelfService = require("./bookShelfService");
+const lastPageService = require("./lastPageService");
 const mylistService = require('./mylistService')
-const bookTimerService = require('./bookTimerService')
-const DecoratorService = require('../dao/bookTimerDecorator')
+const onelinerService = require('./onelinerService');
 
 module.exports = {
     ...healthcheckService,
@@ -17,5 +20,8 @@ module.exports = {
     ...adminService,
     ...mylistService,
     ...bookTimerService,
-    ...DecoratorService
-}
+    ...DecoratorService,
+    ...bookShelfService,
+    ...lastPageService,
+    ...onelinerService,
+};

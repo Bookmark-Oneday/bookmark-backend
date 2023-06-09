@@ -14,6 +14,26 @@ class MyListService {
         return this._serviceName
     }
 
+
+    async getBookInfo(bookId){
+      
+        // uuid type check
+        if (!validator.isUUID(bookId)){
+            throw new InvalidUUID(bookId)
+        }
+
+        const bookInfoDao = new MyListDao()
+
+        const bookInfo = await bookInfoDao.getBookInfo(bookId)
+        
+        // check if bookInfo exists
+        if (!bookInfo) {
+            throw new MyBookNotFound(bookId)
+        }
+
+        return bookInfo
+}
+
     async getMyList(userId, sortType, perPage, continuousToken){
       
         const myListDao = new MyListDao()
@@ -22,6 +42,7 @@ class MyListService {
         
         return myList
     }
+
 
 }
 

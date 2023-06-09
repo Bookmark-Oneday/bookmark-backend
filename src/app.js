@@ -1,60 +1,19 @@
 const koa = require('koa')
 const koaBody = require('koa-body')
-const uuid = require('uuid')
 
 const { config } = require('../deploy/config/config') 
 const { initRouter } = require('./routes') 
-const { log, requestLogger } = require('./utils/logging')
+const { log } = require('./utils/logging')
+
+const { corsMiddleware, loggingMiddleware } = require('./middleware')
 
 const app = new koa()
 app.use(koaBody.koaBody())
 
-// Set CORS
-app.use(async (ctx, next)=>{
-    if(ctx.method === 'OPTIONS'){
-        if (!ctx.get('Access-Control-Requrest-Method')){
-            await next()
-        }
-        ctx.set('Access-Control-Allow-Origin', '*')
-        ctx.set('Access-Control-Allow-Credentials', 'true')
-        ctx.set('Access-Control-Allow-Methods', 'GET')
-        ctx.set('Access-Control-Allow-Headers', '*')
-        ctx.status = 204
-    }else{
-        ctx.set('Access-Control-Allow-Origin', '*')
-        ctx.set('Access-Control-Allow-Credentials', 'true')
-        ctx.set('Vary', 'Origin')
-        await next();
-    }
-})
 
-// error logging
-app.use(async (ctx, next)=>{
-    ctx.state.requestId = uuid.v4()
-    try{
-        await next()
-    }catch(err){
-        const errorObject = {
-            ...err,
-            message: err.message,
-            trace: err.stack,
-        }
-
-        ctx.status = err.status || err.statusCode || 500
-        ctx.body = {
-            error: errorObject,
-            meta: {
-                requestId: ctx.state.requestId,
-                now: +new Date(),
-            },
-        }
-
-        requestLogger(ctx, {
-            message: err.message,
-            trace: err.stack,
-        })
-    }
-})
+// set middleware
+app.use(corsMiddleware)
+app.use(loggingMiddleware)
 
 const router = initRouter()
 app.use(router.routes())

@@ -11,7 +11,7 @@
     "test:controllers": "jest --forceExit --detectOpenHandles ./src/controllers/",
     "test:routes": "jest --forceExit --detectOpenHandles ./src/routes/",
     "test:services": "jest --forceExit --detectOpenHandles ./src/services/",
-    "start:local": "APP_ENV=local node ./src/app.js",
+    "start:local": "APP_ENV=local nodemon ./src/app.js",
     "start:dev": "APP_ENV=dev node ./src/app.js",
     "start:prod": "APP_ENV=prod node ./src/app.js",
     "lint": "eslint ./src"
@@ -51,7 +51,7 @@
     "jest": "^29.4.3",
     "mocha": "^10.2.0",
     "mockdate": "^3.0.5",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.21",
     "sinon": "^15.0.1",
     "supertest": "^6.3.3",
     "supertest-as-promised": "^4.0.2"
